@@ -1,5 +1,4 @@
 import { useState } from 'react';
-// import LoginForm from './LoginForm';
 
 const SignupForm = () => {
 
@@ -7,15 +6,31 @@ const SignupForm = () => {
     const [password, setPassword] = useState("")
     const [passwordConfirmation, setPasswordConfirmation] = useState("")
 
+    function handleSubmit(e) {
+        e.preventDefault()
+        fetch("/signup", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              username,
+              password,
+              password_confirmation: passwordConfirmation,
+            }),
+          })
+            .then((r) => r.json())
+            .then((r)=> console.log(r))
+    }
+
   return (
     <div className="row container valign-wrapper">
-        <form className="col s8">
+        <form onSubmit={handleSubmit} className="col s8">
             <div className="row">
                 <div className="input-field col s8">
                     <label>Username </label>
                     <input 
                         type="text"
-                        // placeholder="Type your name here..."
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     ></input>
@@ -24,7 +39,6 @@ const SignupForm = () => {
                     <label>Password</label>
                     <input 
                         type="password"
-                        // placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     ></input>
@@ -33,15 +47,12 @@ const SignupForm = () => {
                     <label>Confirm Password</label>
                     <input 
                         type="password"
-                        // placeholder="Password"
                         value={passwordConfirmation}
                         onChange={(e) => setPasswordConfirmation(e.target.value)}
                      ></input>
                 </div>
                 <div className="input-field col s8">
-                    <button className="btn waves-effect waves-light" type="submit" name="action">Sign Up
-                        <i className="material-icons right">send</i>
-                    </button>
+                    <input className="btn" type="submit" value="Sign Up" />
                 </div>
             </div>
         </form>
