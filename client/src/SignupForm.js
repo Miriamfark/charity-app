@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const SignupForm = () => {
+function SignupForm({ setUser }) {
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
@@ -20,7 +20,7 @@ const SignupForm = () => {
             }),
           })
             .then((r) => r.json())
-            .then((r)=> console.log(r))
+            .then((r)=> setUser(r))
     }
 
   return (
