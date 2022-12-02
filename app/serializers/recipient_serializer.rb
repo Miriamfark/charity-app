@@ -1,3 +1,3 @@
 class RecipientSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :name, :category, :fundraising_goal, :logo, :description
 end

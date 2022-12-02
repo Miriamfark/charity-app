@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import RecipientCard from './RecipientCard';
 
 const RecipientList = () => {
 
@@ -10,17 +11,18 @@ const RecipientList = () => {
         .then(setRecipients);
     }, []);
 
-    console.log(recipients)
+    // console.log(recipients)
 
-    // let mappedRecipients
-    // if (recipients){
-    //     mappedRecipients = recipients.map((recipient)=> {
-    //     <li>{recipient.name}</li>
-    // })}
+    let mappedRecipients
+    if (recipients){
+        mappedRecipients = recipients.map((recipient)=> {
+            // console.log(recipient.name)
+        return <RecipientCard recipient={recipient} />
+    })}
     
 
   return (
-    <ul>Recipient List</ul>
+    <ul>{mappedRecipients}</ul>
   )
 }
 
