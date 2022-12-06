@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react'
+import { Routes, Route } from "react-router-dom"
 import SignupForm from './SignupForm';
 import Login from './Login';
 import NavBar from './NavBar';
 import RecipientList from './RecipientList';
+import RecipientFullCard from './RecipientFullCard';
 
 function App() {
 
   const [user, setUser] = useState(null)
+  const [recipients, setRecipients] = useState([]);
+  const [recipient, setRecipient] = useState("")
 
   useEffect(() => {
     fetch("/me").then((r) => {
@@ -16,13 +20,23 @@ function App() {
     });
   }, []);
 
+  useEffect(() => {
+    fetch("/recipients")
+      .then((r) => r.json())
+      .then(setRecipients);
+  }, []);
+
   if (!user) return <Login setUser={setUser} />;
 
   return (
     <div>
-      {/* <NavBar /> */}
+      <NavBar />
+      <Routes>
+        <Route path="/recipients" element={<RecipientList recipients={recipients} recipient={recipient} setRecipient={setRecipient} />} />
+        <Route path="/recipients/:id" element={<RecipientFullCard recipients={recipients} recipient={recipient} setRecipient={setRecipient} />} />
+        {/* <Route path="/logout"/> */}
+     </Routes>
       Charity App
-      <RecipientList />
     </div>
   );
 }
