@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom'
+
 
 function SignupForm({ setUser }) {
 
@@ -56,7 +58,7 @@ function SignupForm({ setUser }) {
                 </div>
             </div>
         </form>
-        <p>Already have an account? Login here!</p>
+        <Link to={'/login'}>Already have an account? Login here!</Link>
     </div>
   )
 }

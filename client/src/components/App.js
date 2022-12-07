@@ -36,6 +36,7 @@ function App() {
         <Route path="/recipients" element={<RecipientList recipients={recipients} recipient={recipient} setRecipient={setRecipient} />} />
         <Route path="/recipients/:id" element={<RecipientFullCard recipients={recipients} recipient={recipient} setRecipient={setRecipient} />} />
         <Route path="/recipients/new" element={<NewRecipientForm setRecipients={setRecipients} recipients={recipients} />} />
+        <Route path="/signup" element={<SignupForm setUser={setUser} />} />
      </Routes>
       Charity App
     </div>

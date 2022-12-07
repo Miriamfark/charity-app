@@ -19,6 +19,7 @@ const RecipientFullCard = ({ recipients }) => {
                 <p>{recipient.description}</p>
                 <span>{`Fundraising Goal: $${recipient.fundraising_goal}.00`}</span> */}
             {/* </div> */}
+    {/* add button to edit the recipient */}
         </div>
     </div>
   )
