@@ -5,6 +5,7 @@ import Login from './Login';
 import NavBar from './NavBar';
 import RecipientList from './RecipientList';
 import RecipientFullCard from './RecipientFullCard';
+import NewRecipientForm from './NewRecipientForm';
 
 function App() {
 
@@ -30,11 +31,11 @@ function App() {
 
   return (
     <div>
-      <NavBar />
+      <NavBar setUser={setUser} />
       <Routes>
         <Route path="/recipients" element={<RecipientList recipients={recipients} recipient={recipient} setRecipient={setRecipient} />} />
         <Route path="/recipients/:id" element={<RecipientFullCard recipients={recipients} recipient={recipient} setRecipient={setRecipient} />} />
-        {/* <Route path="/logout"/> */}
+        <Route path="/recipients/new" element={<NewRecipientForm setRecipients={setRecipients} recipients={recipients} />} />
      </Routes>
       Charity App
     </div>

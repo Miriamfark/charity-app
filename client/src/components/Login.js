@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+
 
 const Login = ({setUser}) => {
 
@@ -48,7 +50,7 @@ const Login = ({setUser}) => {
         </form>
         <div>
             <p>Don't have an account?</p>
-            <p className="btn">Sign Up!</p>
+            <Link className="btn" to={"/signup"}>Sign Up!</Link>
         </div>
         
     </div>
