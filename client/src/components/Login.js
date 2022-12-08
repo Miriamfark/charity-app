@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import SignupForm from './SignupForm'
 
 
 const Login = ({setUser}) => {
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [errors, setErrors] = useState(false)
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -19,8 +21,16 @@ const Login = ({setUser}) => {
               password
             }),
           })
-            .then((r) => r.json())
-            .then((r)=> setUser(r))
+            .then((r) => {
+                if(r.ok){
+                    r.json().then((r)=> setUser(r))
+                }
+                else {
+                   r.json().then(e => {
+                    setErrors(Object.entries(e.error).flat())
+                })
+                } 
+            }) 
     }
 
   return (
@@ -48,9 +58,10 @@ const Login = ({setUser}) => {
                 </div>
             </div>
         </form>
+        { errors ? <h5>{errors}</h5> : null }
         <div>
             <p>Don't have an account?</p>
-            <Link className="btn" to={"/signup"}>Sign Up!</Link>
+            <Link to={"/signup"} element={<SignupForm />}>Sign Up!</Link>
         </div>
         
     </div>
