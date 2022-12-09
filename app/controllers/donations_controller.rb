@@ -1,14 +1,13 @@
 class DonationsController < ApplicationController
 
-    def create 
-        recipient = Recipient.find(params[:user_id])
-
+    def create   
+        find_recipient
         donation = recipient.donations.create!(donation_params)
         render json: donation, status: :created
     end
 
     def index 
-        recipient = Recipient.find(params[:user_id])
+        find_recipient
         donations = recipient.donations.all
         render json: donations
     end
@@ -18,6 +17,9 @@ class DonationsController < ApplicationController
 
     def donation_params
         params.permit(:amount, :user_id) 
-        # ????? how to get the user id?
+    end
+
+    def find_recipient 
+        recipient = Recipient.find(params[:recipient_id])
     end
 end

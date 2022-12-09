@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :recipients, only: [:index, :show, :create, :destroy]
+  resources :recipients, only: [:index, :show, :create, :destroy, :update]
   resources :donations, only: [:create, :index]
   post '/signup', to: "users#create"  
   get '/me', to: "users#show"

@@ -1,8 +1,9 @@
 import React from 'react'
 
-const NewRecipientForm = ({ 
-    recipients, 
+const UpdateRecipient = ({ 
+    recipients,
     setRecipients,
+    recipient,
     name,
     setName,
     category,
@@ -15,15 +16,11 @@ const NewRecipientForm = ({
     setDescription 
 }) => {
 
-    // const [name, setName] = useState("");
-    // const [category, setCategory] = useState("")
-    // const [fundraisingGoal, setFundraisingGoal] = useState("")
-    // const [logo, setLogo] = useState("")
-    // const [description, setDescription] = useState("")
+    // console.log(id)
 
     function handleSubmit(e) {
         e.preventDefault()
-        const newRecipientData = {
+        const editRecipientData = {
             name: name,
             category: category,
             fundraising_goal: fundraisingGoal,
@@ -31,22 +28,23 @@ const NewRecipientForm = ({
             description: description
           }
 
-          fetch("/recipients", {
-            method: "POST",
+          fetch(`/recipients/${recipient.id}`, {
+            method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(newRecipientData)
+            body: JSON.stringify(editRecipientData)
           })
             .then((r) => r.json())
-            .then((newRecipient) => {
-                setRecipients([...recipients, newRecipient])
-                alert("New recipient submitted!")
+            .then((updatedRecipient) => {
+                setRecipients([...recipients, updatedRecipient])
+                alert("Recipient updated!")
             })
     }
 
   return (
-    <div className="row container valign-wrapper">
+    <div>
+        <div className="row container valign-wrapper">
         <form className="col s8" onSubmit={handleSubmit}>
             <div className="row">
                 <div className="input-field col s8">
@@ -54,6 +52,7 @@ const NewRecipientForm = ({
                         <input 
                             type="text"
                             value={name}
+                            defaultValue={recipient.name}
                             onChange={(e) => setName(e.target.value)}
                         ></input>
                 </div>
@@ -85,6 +84,7 @@ const NewRecipientForm = ({
                         <input 
                             type="number"
                             value={fundraisingGoal}
+                            defaultValue={recipient.fundraisingGoal}
                             onChange={(e) => setFundraisingGoal(e.target.value)}
                         ></input>
                 </div>
@@ -95,6 +95,7 @@ const NewRecipientForm = ({
                         <input 
                             type="text"
                             value={logo}
+                            defaultValue={recipient.logo}
                             onChange={(e) => setLogo(e.target.value)}
                         ></input>
                 </div>
@@ -105,16 +106,18 @@ const NewRecipientForm = ({
                         <input 
                             type="textarea"
                             value={description}
+                            defaultValue={recipient.description}
                             onChange={(e) => setDescription(e.target.value)}
                         ></input>
                 </div>
             </div> 
             <div className="input-field col s8">
-                    <input className="btn" type="submit" value="Submit" />
+                    <input className="btn" type="submit" value="Edit" />
                 </div>  
         </form>
+    </div>
     </div>
   )
 }
 
-export default NewRecipientForm
+export default UpdateRecipient

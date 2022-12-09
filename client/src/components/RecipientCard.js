@@ -11,7 +11,7 @@ const RecipientCard = ({ recipient, setRecipient }) => {
   <div className="col s12 m6">
     <div className="card">
       <div className="card-image">
-        <img src={recipient.logo} />
+        <img src={recipient.logo} alt="recipient-logo"/>
         <span>{recipient.name}</span>
       <div className="card-content">
         <p>{recipient.description}</p>
