@@ -1,25 +1,34 @@
 class DonationsController < ApplicationController
 
     def create   
-        find_recipient
-        donation = recipient.donations.create!(donation_params)
+        user = User.find(session[:user_id])
+        donation = user.donations.create!(donation_params)
         render json: donation, status: :created
     end
 
     def index 
-        find_recipient
-        donations = recipient.donations.all
+        user = User.find(session[:user_id])
+        donations = user.donations.all
         render json: donations
+    end
+
+    def update
+        user = User.find(session[:user_id]) 
+        donation = user.donations.find(params[:id]).update!(amount: params[:amount])
+        render json: donation, status: :accepted
+    end
+
+    def destroy 
+        user = User.find(session[:user_id]) 
+        donation = user.donations.find(params[:id]).destroy
+        head :no_content
     end
 
 
     private 
 
     def donation_params
-        params.permit(:amount, :user_id) 
+        params.permit(:amount, :recipient_id) 
     end
 
-    def find_recipient 
-        recipient = Recipient.find(params[:recipient_id])
-    end
 end

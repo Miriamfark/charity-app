@@ -12,6 +12,12 @@ class UsersController < ApplicationController
         render json: current_user
     end
 
+    def my_donations
+        recipient = Recipient.find(params[:id])
+        my_donations = recipient.donations.select { |donation| donation.user_id == session[:user_id] }
+        render json: my_donations
+    end
+
     private
 
     def user_params 

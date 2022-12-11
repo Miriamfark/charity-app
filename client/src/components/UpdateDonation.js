@@ -1,32 +1,36 @@
 import React, { useState } from 'react'
+import { useParams } from 'react-router-dom'
 
-const DonationForm = ({ recipient }) => {
 
-    const [amount, setAmount] = useState(1)
+const UpdateDonation = ({ user }) => {
+    
+    let { id } = useParams()
+    const donation = user.donations.filter((donation) => donation.id == id)[0]
 
-    function submitDonation(e) {
+    const [amount, setAmount] = useState(donation.amount)
+    console.log(amount)
+    
+    function updateDonation(e) {
         e.preventDefault()
         const donationData = {
-            recipient_id: recipient.id,
             amount: amount
           }
-
-          fetch("/donations", {
-            method: "POST",
+        fetch(`/donations/${id}`, {
+            method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(donationData)
+            body: JSON.stringify()
           })
             .then((r) => r.json())
-            .then((donation) => {
-                console.log(donation)
+            .then((data) => {
+                console.log(data)
             })
     }
 
-  return (
+    return (
     <div>
-        <form className="col s8" onSubmit={submitDonation}>
+        <form className="col s8" onSubmit={updateDonation}>
             <div className="row">
                 <div className="input-field col s8">
                     <label>Amount $</label>
@@ -38,11 +42,11 @@ const DonationForm = ({ recipient }) => {
                 </div>
             </div>
             <div className="input-field col s8">
-                <input className="btn" type="submit" value="Donate" />
+                <input className="btn" type="submit" value="Save Changes" />
             </div>
         </form>
     </div>
   )
 }
 
-export default DonationForm
+export default UpdateDonation

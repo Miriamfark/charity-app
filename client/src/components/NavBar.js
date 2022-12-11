@@ -14,9 +14,10 @@ const NavBar = ({ setUser }) => {
 
   return (
     <div>
-        <p className="btn" onClick={handleLogout} >Log Out</p>
-        <Link to={'/recipients'}>Recipients</Link>
-        <Link to={'/recipients/new'}>New Recipient</Link>
+        <p className="btn navlink" onClick={handleLogout} >Log Out</p>
+        <Link className="navlink" to={'/recipients'}>All Recipients</Link>
+        <Link className="navlink" to={'/me/recipients'}>My Recipients</Link>
+        {/* <Link className="navlink" to={'/recipients/new'}>New Recipient</Link> */}
     </div>
   )
 }

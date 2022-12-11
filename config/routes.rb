@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
 
-  resources :recipients, only: [:index, :show, :create, :destroy, :update]
-  resources :donations, only: [:create, :index]
+  resources :recipients, only: [:index, :show, :create]
+  resources :donations, only: [:create, :index, :update, :destroy]
   post '/signup', to: "users#create"  
   get '/me', to: "users#show"
+  get '/me/recipients', to: "recipients#index"
+  get 'me/recipients/:id/donations', to: "users#my_donations"
   post '/login', to: "sessions#create"
   delete '/logout', to: "sessions#destroy"
   # Routing logic: fallback requests for React Router.
