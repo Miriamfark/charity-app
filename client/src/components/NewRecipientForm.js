@@ -1,25 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const NewRecipientForm = ({ 
-    recipients, 
-    setRecipients,
-    name,
-    setName,
-    category,
-    setCategory,
-    fundraisingGoal,
-    setFundraisingGoal,
-    logo,
-    setLogo,
-    description,
-    setDescription 
-}) => {
+const NewRecipientForm = ({ recipients, setRecipients }) => {
 
-    // const [name, setName] = useState("");
-    // const [category, setCategory] = useState("")
-    // const [fundraisingGoal, setFundraisingGoal] = useState("")
-    // const [logo, setLogo] = useState("")
-    // const [description, setDescription] = useState("")
+    const [name, setName] = useState("");
+    const [category, setCategory] = useState("")
+    const [fundraisingGoal, setFundraisingGoal] = useState("")
+    const [logo, setLogo] = useState("")
+    const [description, setDescription] = useState("")
+
+    console.log("recipients:", recipients)
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -40,6 +29,7 @@ const NewRecipientForm = ({
           })
             .then((r) => r.json())
             .then((newRecipient) => {
+                console.log(recipients)
                 setRecipients([...recipients, newRecipient])
                 alert("New recipient submitted!")
             })

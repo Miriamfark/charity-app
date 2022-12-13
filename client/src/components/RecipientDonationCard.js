@@ -1,13 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import DonationForm from './DonationForm'
 import UpdateDonation from './UpdateDonation'
-import DeleteDonation from './DeleteDonation'
 
 const RecipientDonationCard = ({ user }) => {
 
     let { id } = useParams()
-   
+   const [displayedDonations, setDisplayedDonations] = useState([])
 
     const donations = user.donations.filter((donation) => donation.recipient.id == id)
     const recipient = user.recipients.map((recipient)=>{
@@ -21,14 +20,17 @@ const RecipientDonationCard = ({ user }) => {
           <>
               <li key={donation.id}>Donation: ${donation.amount} | Date: {donation.created_at.slice(0, 10)}</li>
               <Link className="btn" element={<UpdateDonation user={user} />} to={`/me/donations/${donation.id}`}>Edit Donation</Link>
-              <Link className="btn" element={<DeleteDonation user={user} />} to={`/me/donations/${donation.id}`}>Delete Donation</Link>
+              <p className="btn" onClick={()=>{
+                fetch(`/donations/${donation.id}`, { method: "DELETE" })
+                .then(setDisplayedDonations(displayedDonations.filter((d)=> d.id !== donation.id)))
+              }}>Delete Donation</p>
           </>
           )
   })
 
   return (
     <div>
-        <img src={recipient.logo} />
+        <img src={recipient.logo} alt="logo" />
         <h1>{recipient.name}</h1>
         <p>{recipient.description}</p>
         <span>{recipient.category}</span>

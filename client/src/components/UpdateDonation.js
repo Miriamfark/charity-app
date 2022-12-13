@@ -3,29 +3,27 @@ import { useParams } from 'react-router-dom'
 
 
 const UpdateDonation = ({ user }) => {
-
-    console.log("user", user)
-    
+  
     let { id } = useParams()
-    const donation = user.donations.filter((donation) => donation.recipient_id === id)[0]
+    const donation = user.donations.map((donation) => {
+        if(donation.id == id) {
+            return donation
+        }
+    })[0]
     
-    
+    const [amount, setAmount] = useState(donation.amount)  
 
-    const [amount, setAmount] = useState(donation.amount)
-    console.log(amount)
-    
     function updateDonation(e) {
         e.preventDefault()
         const donationData = {
-            amount: donation.amount,
-            recipientId: donation.recipient_id
+            amount: amount,
           }
         fetch(`/donations/${id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify()
+            body: JSON.stringify(donationData)
           })
             .then((r) => r.json())
             .then((data) => {
