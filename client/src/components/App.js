@@ -13,7 +13,6 @@ function App() {
 
   const [user, setUser] = useState(null)
   const [recipients, setRecipients] = useState([]);
-  // const [recipient, setRecipient] = useState({})
  
 
   useEffect(() => {
@@ -47,7 +46,7 @@ function App() {
         <Route path="/recipients" element={<RecipientList recipients={recipients} />} />
         <Route path="/recipients/:id" element={<RecipientFullCard recipients={recipients} />} />
         <Route path="/recipients/new" element={<NewRecipientForm />} />
-        <Route path="/signup" element={<SignupForm setUser={setUser} />} />
+        <Route path="/login" element={<Login setUser={setUser} />} />
      </Routes>
      <h1>My Organizations</h1>
       <ul>

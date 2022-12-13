@@ -1,28 +1,33 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
 
-
-function SignupForm({ setUser }) {
+const LoginForm = ({ setUser }) => {
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const [passwordConfirmation, setPasswordConfirmation] = useState("")
+    const [errors, setErrors] = useState(false)
 
     function handleSubmit(e) {
         e.preventDefault()
-        fetch("/signup", {
+        fetch("/login", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
               username,
-              password,
-              password_confirmation: passwordConfirmation,
+              password
             }),
           })
-            .then((r) => r.json())
-            .then((r)=> setUser(r))
+            .then((r) => {
+                if(r.ok){
+                    r.json().then((r)=> setUser(r))
+                }
+                else {
+                   r.json().then(e => {
+                    setErrors(Object.entries(e.error).flat())
+                })
+                } 
+            }) 
     }
 
   return (
@@ -46,20 +51,13 @@ function SignupForm({ setUser }) {
                     ></input>
                 </div>
                 <div className="input-field col s8">
-                    <label>Confirm Password</label>
-                    <input 
-                        type="password"
-                        value={passwordConfirmation}
-                        onChange={(e) => setPasswordConfirmation(e.target.value)}
-                     ></input>
-                </div>
-                <div className="input-field col s8">
-                    <input className="btn" type="submit" value="Sign Up" />
+                    <input className="btn" type="submit" value="Log In" />
                 </div>
             </div>
         </form>
+        { errors ? <h5>{errors}</h5> : null }
     </div>
   )
 }
 
-export default SignupForm
+export default LoginForm

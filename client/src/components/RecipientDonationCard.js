@@ -1,26 +1,31 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useParams, Link } from 'react-router-dom'
 import DonationForm from './DonationForm'
 import UpdateDonation from './UpdateDonation'
+import DeleteDonation from './DeleteDonation'
 
 const RecipientDonationCard = ({ user }) => {
 
     let { id } = useParams()
+   
 
-    const [donations, setDonations] = useState([])
+    const donations = user.donations.filter((donation) => donation.recipient.id == id)
+    const recipient = user.recipients.map((recipient)=>{
+      if(recipient.id == id) {
+        return recipient
+      }
+    })[0]
 
-    const recipient = user.recipients.filter((recipient) => recipient.id == id)[0]
+    const mappedDonations = donations.map((donation) => {
+      return (
+          <>
+              <li key={donation.id}>Donation: ${donation.amount} | Date: {donation.created_at.slice(0, 10)}</li>
+              <Link className="btn" element={<UpdateDonation user={user} />} to={`/me/donations/${donation.id}`}>Edit Donation</Link>
+              <Link className="btn" element={<DeleteDonation user={user} />} to={`/me/donations/${donation.id}`}>Delete Donation</Link>
+          </>
+          )
+  })
 
-    useEffect(() => {
-        fetch(`/me/recipients/${id}/donations`).then((r) => {
-          if (r.ok) {
-            r.json().then((data) => setDonations(data));
-          }
-        });
-      }, []);
-
-    
-    
   return (
     <div>
         <img src={recipient.logo} />
@@ -31,13 +36,7 @@ const RecipientDonationCard = ({ user }) => {
         <DonationForm recipient={recipient} />
         <ul>
             <h4>My Previous Donations</h4>
-            {donations.map((donation) => {
-                return (
-                    <>
-                        <li key={donation.id}>Donation: ${donation.amount} | Date: {donation.created_at.slice(0, 10)}</li>
-                        <Link className="btn" element={<UpdateDonation />} to={`/me/donations/${donation.id}`}>Edit Donation</Link>
-                    </>)
-            })}
+            {mappedDonations}
         </ul>
     </div>
   )

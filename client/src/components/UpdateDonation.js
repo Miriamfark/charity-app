@@ -3,9 +3,13 @@ import { useParams } from 'react-router-dom'
 
 
 const UpdateDonation = ({ user }) => {
+
+    console.log("user", user)
     
     let { id } = useParams()
-    const donation = user.donations.filter((donation) => donation.id == id)[0]
+    const donation = user.donations.filter((donation) => donation.recipient_id === id)[0]
+    
+    
 
     const [amount, setAmount] = useState(donation.amount)
     console.log(amount)
@@ -13,7 +17,8 @@ const UpdateDonation = ({ user }) => {
     function updateDonation(e) {
         e.preventDefault()
         const donationData = {
-            amount: amount
+            amount: donation.amount,
+            recipientId: donation.recipient_id
           }
         fetch(`/donations/${id}`, {
             method: "PATCH",
@@ -30,7 +35,7 @@ const UpdateDonation = ({ user }) => {
 
     return (
     <div>
-        <form className="col s8" onSubmit={updateDonation}>
+        <form className="col s8" onSubmit={updateDonation}> 
             <div className="row">
                 <div className="input-field col s8">
                     <label>Amount $</label>
