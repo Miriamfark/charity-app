@@ -33,6 +33,7 @@ const RecipientDonationCard = ({ user }) => {
           <h1>{recipient.name}</h1>
           <p>{recipient.description}</p>
           <span>{recipient.category}</span>
+          <h5>${recipient.sum_donations} out of ${recipient.fundraising_goal} collected.</h5>
           <h3>Make Another Donation</h3>
           <DonationForm recipient={recipient} />
           <ul>

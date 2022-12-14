@@ -18,7 +18,9 @@ const RecipientFullCard = ({ recipients }) => {
       <div className="card">
         <div className="card-image">
           <img src={recipient.logo} alt="recipient-logo"/>
-          <span className="card-title">{recipient.name}</span>
+          <h2>{recipient.name}</h2>
+          <h6>{recipient.category}</h6>
+          <h5>${recipient.sum_donations} out of ${recipient.fundraising_goal} collected.</h5>
         </div>
         <div className="card-content">
           <p>{recipient.description}</p>
