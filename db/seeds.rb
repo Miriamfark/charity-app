@@ -6,11 +6,11 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 Recipient.create(
-    name: "Organization",
+    name: "Help the Homeless",
     category: "Poverty",
-    fundraising_goal: 100,
-    logo: "https://www.shutterstock.com/image-vector/homeless-shelter-vector-color-logo-260nw-1066474799.jpg",
-    description: "Helps poverty")
+    fundraising_goal: 9999,
+    logo: "https://www.careforthehomeless.org/wp-content/uploads/2019/05/logo.png",
+    description: "Helps poverty stricken individuals with basic necessities.")
 
 Recipient.create(
     name: "Scholarship America",
@@ -20,8 +20,44 @@ Recipient.create(
     description: "Scholarship America works directly with students, parents, colleges, businesses and communities to help students fulfill their college dreams.")
     
 Recipient.create(
-    name: "Hospital",
+    name: "Mount Sinai Hospital",
     category: "Health",
-    fundraising_goal: 5000,
+    fundraising_goal: 50000,
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR47NCkHLoIpAD3nu5I_RgmtblaQrXtGrDTt-DqNxWQ&s",
-    description: "Helps the sick")
+    description: "Treating ill patients with compassion and dignity.")
+
+User.create(
+    username: "Samantha",
+    password: 1234,
+    password_confirmation: 1234
+)
+
+User.create(
+    username: "Eli",
+    password: 6789,
+    password_confirmation: 6789
+)
+
+User.create(
+    username: "Nadia",
+    password: "password",
+    password_confirmation: "password"
+)
+
+Donation.create(
+    user_id: 1,
+    recipient_id: 2,
+    amount: 99
+)
+
+Donation.create(
+    user_id: 2,
+    recipient_id: 3,
+    amount: 88
+)
+
+Donation.create(
+    user_id: 3,
+    recipient_id: 1,
+    amount: 77
+)

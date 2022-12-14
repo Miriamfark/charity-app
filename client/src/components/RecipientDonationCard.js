@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useParams, Link } from 'react-router-dom'
 import DonationForm from './DonationForm'
 import UpdateDonation from './UpdateDonation'
@@ -6,14 +6,11 @@ import UpdateDonation from './UpdateDonation'
 const RecipientDonationCard = ({ user }) => {
 
     let { id } = useParams()
-   const [displayedDonations, setDisplayedDonations] = useState([])
 
     const donations = user.donations.filter((donation) => donation.recipient.id == id)
-    const recipient = user.recipients.map((recipient)=>{
-      if(recipient.id == id) {
-        return recipient
-      }
-    })[0]
+    const recipient = user.recipients.filter((recipient)=>recipient.id == id)[0]
+
+    console.log("recipient:",recipient)
 
     const mappedDonations = donations.map((donation) => {
       return (
@@ -22,7 +19,7 @@ const RecipientDonationCard = ({ user }) => {
               <Link className="btn" element={<UpdateDonation user={user} />} to={`/me/donations/${donation.id}`}>Edit Donation</Link>
               <p className="btn" onClick={()=>{
                 fetch(`/donations/${donation.id}`, { method: "DELETE" })
-                .then(setDisplayedDonations(displayedDonations.filter((d)=> d.id !== donation.id)))
+                .then(alert("Donation deleted!"))
               }}>Delete Donation</p>
           </>
           )
@@ -30,16 +27,23 @@ const RecipientDonationCard = ({ user }) => {
 
   return (
     <div>
-        <img src={recipient.logo} alt="logo" />
-        <h1>{recipient.name}</h1>
-        <p>{recipient.description}</p>
-        <span>{recipient.category}</span>
-        <h3>Make Another Donation</h3>
-        <DonationForm recipient={recipient} />
-        <ul>
-            <h4>My Previous Donations</h4>
-            {mappedDonations}
-        </ul>
+      { user.recipients.length >= 1 ? (
+        <>
+          <img src={recipient.logo} alt="logo" />
+          <h1>{recipient.name}</h1>
+          <p>{recipient.description}</p>
+          <span>{recipient.category}</span>
+          <h3>Make Another Donation</h3>
+          <DonationForm recipient={recipient} />
+          <ul>
+              <h4>My Previous Donations</h4>
+              {mappedDonations}
+          </ul>
+        </>
+      ) : (
+        <h2>You have deleted your donation.</h2>
+      )}
+       
     </div>
   )
 }

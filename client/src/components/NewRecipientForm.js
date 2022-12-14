@@ -52,20 +52,20 @@ const NewRecipientForm = ({ recipients, setRecipients }) => {
                 <label>Category</label>
                 <div className="row">
                     <label>
-                        <input type="radio" value="poverty" name="category" onChange={(e)=> setCategory(e.target.value)} /> 
+                        <input type="radio" value="Poverty" name="category" onChange={(e)=> setCategory(e.target.value)} /> 
                         <span>Poverty</span>
                     </label>
                 </div>
             </div>
             <div className="row">
                 <label>
-                    <input type="radio" value="education" name="category" onChange={(e)=> setCategory(e.target.value)} /> 
+                    <input type="radio" value="Education" name="category" onChange={(e)=> setCategory(e.target.value)} /> 
                     <span>Education </span>
                 </label>
             </div>
             <div className="row">
                 <label>
-                    <input type="radio" value="health" name="category" onChange={(e)=> setCategory(e.target.value)} /> 
+                    <input type="radio" value="Health" name="category" onChange={(e)=> setCategory(e.target.value)} /> 
                     <span>Health</span>
                 </label>
             </div>
