@@ -7,7 +7,7 @@ const MyDonationList = ({ user }) => {
     })
     return (
     <div>
-        <h2>{user.username}'s Donations</h2>
+        <h3>{user.username}'s Donations</h3>
         <ul>
             {mappedDonations}
         </ul>
