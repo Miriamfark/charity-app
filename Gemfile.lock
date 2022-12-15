@@ -76,8 +76,6 @@ GEM
     crass (1.0.6)
     diff-lcs (1.4.4)
     erubi (1.10.0)
-    faker (1.9.6)
-      i18n (>= 0.7)
     ffi (1.15.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -186,7 +184,6 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.4.4)
   byebug
-  faker (~> 1.6, >= 1.6.6)
   listen (~> 3.3)
   pg (~> 1.1)
   puma (~> 5.0)
