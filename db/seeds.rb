@@ -26,23 +26,6 @@ Recipient.create(
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR47NCkHLoIpAD3nu5I_RgmtblaQrXtGrDTt-DqNxWQ&s",
     description: "Treating ill patients with compassion and dignity.")
 
-User.create(
-    username: "Samantha",
-    password: 1234,
-    password_confirmation: 1234
-)
-
-User.create(
-    username: "Eli",
-    password: 6789,
-    password_confirmation: 6789
-)
-
-User.create(
-    username: "Nadia",
-    password: "password",
-    password_confirmation: "password"
-)
 
 Donation.create(
     user_id: 1,
