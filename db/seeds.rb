@@ -26,15 +26,4 @@ Recipient.create(
     logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR47NCkHLoIpAD3nu5I_RgmtblaQrXtGrDTt-DqNxWQ&s",
     description: "Treating ill patients with compassion and dignity.")
 
-Donation.create(
-    user_id: 1,
-    recipient_id: 2,
-    amount: 99
-)
-
-Donation.create(
-    user_id: 2,
-    recipient_id: 3,
-    amount: 88
-)
 
