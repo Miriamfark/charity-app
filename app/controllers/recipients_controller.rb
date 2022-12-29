@@ -1,5 +1,7 @@
 class RecipientsController < ApplicationController
 
+    rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
+
     def index 
         recipients = Recipient.all 
         render json: recipients
@@ -25,5 +27,9 @@ class RecipientsController < ApplicationController
     def find_recipient 
         recipient = Recipient.find(params[:id])
     end
+
+    def render_not_found_response
+        render json: { error: "Recipient not found" }, status: :not_found
+      end
 
 end

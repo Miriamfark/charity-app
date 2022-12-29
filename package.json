@@ -11,6 +11,9 @@
     "heroku-postbuild": "npm run clean && npm run build && npm run deploy"
   },
   "dependencies": {
-    "react-router-dom": "^6.4.4"
+    "@reduxjs/toolkit": "^1.9.1",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.4.4",
+    "redux": "^4.2.0"
   }
 }
