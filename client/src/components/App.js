@@ -15,7 +15,7 @@ import MyDonationList from './MyDonationList';
 function App() {
 
   const user = useSelector((state) => state.users.user)
-  const recipients = useSelector((state) => state.recipients.recipient)
+  const recipients = useSelector((state) => state.recipients.recipients)
 
   const dispatch = useDispatch()
 
