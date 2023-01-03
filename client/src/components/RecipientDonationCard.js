@@ -7,8 +7,8 @@ const RecipientDonationCard = ({ user }) => {
 
     let { id } = useParams()
 
-    const donations = user.donations.filter((donation) => donation.recipient.id == id)
-    const recipient = user.recipients.filter((recipient)=>recipient.id == id)[0]
+    const donations = user?.donations.filter((donation) => donation.recipient.id == id)
+    const recipient = user?.recipients.filter((recipient)=>recipient.id == id)[0]
 
     console.log("recipient:",recipient)
 

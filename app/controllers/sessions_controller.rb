@@ -15,7 +15,5 @@ class SessionsController < ApplicationController
         session[:user_id] = nil
         head :no_content
     end
-    #login
-    #authorize from the application controller 
-    #'/me'
+    
 end

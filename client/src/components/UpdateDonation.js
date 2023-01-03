@@ -11,12 +11,12 @@ const UpdateDonation = ({ user }) => {
         }
     })[0]
     
-    const [amount, setAmount] = useState(donation.amount)  
+    const [amountNumber, setAmountNumber] = useState(donation?.amount)  
 
     function updateDonation(e) {
         e.preventDefault()
         const donationData = {
-            amount: amount,
+            amount: amountNumber,
           }
         fetch(`/donations/${id}`, {
             method: "PATCH",
@@ -39,8 +39,8 @@ const UpdateDonation = ({ user }) => {
                     <label>Amount $</label>
                     <input 
                         type="number"
-                        value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
+                        value={amountNumber}
+                        onChange={(e) => setAmountNumber(e.target.value)}
                     ></input>
                 </div>
             </div>
