@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { postDonation } from '../redux/usersSlice';
 
 const DonationForm = ({ recipient }) => {
 
     const [amount, setAmount] = useState(1)
+    const dispatch = useDispatch()
 
     function submitDonation(e) {
         e.preventDefault()
@@ -10,18 +13,7 @@ const DonationForm = ({ recipient }) => {
             recipient_id: recipient.id,
             amount: amount
           }
-
-          fetch("/donations", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(donationData)
-          })
-            .then((r) => r.json())
-            .then((donation) => {
-                console.log(donation)
-            })
+          dispatch(postDonation(donationData))
     }
 
   return (

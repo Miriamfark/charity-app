@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { postRecipient } from '../redux/recipientsSlice';
 
-const NewRecipientForm = ({ recipients, setRecipients }) => {
+const NewRecipientForm = () => {
+
+    const dispatch = useDispatch()
 
     const [name, setName] = useState("");
     const [category, setCategory] = useState("")
     const [fundraisingGoal, setFundraisingGoal] = useState("")
     const [logo, setLogo] = useState("")
     const [description, setDescription] = useState("")
-
-    console.log("recipients:", recipients)
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -20,19 +22,12 @@ const NewRecipientForm = ({ recipients, setRecipients }) => {
             description: description
           }
 
-          fetch("/recipients", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(newRecipientData)
-          })
-            .then((r) => r.json())
-            .then((newRecipient) => {
-                console.log(recipients)
-                setRecipients([...recipients, newRecipient])
-                alert("New recipient submitted!")
-            })
+          dispatch(postRecipient(newRecipientData))
+          setName("")
+          setCategory("")
+          setDescription("")
+          setLogo("")
+          setFundraisingGoal("")
     }
 
   return (

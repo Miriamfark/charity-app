@@ -1,33 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import { userSelector, clearState, loginUser } from '../redux/usersSlice';
 
 const LoginForm = ({ setUser }) => {
+
+    const { isError, errorMessage } = useSelector(userSelector)
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [errors, setErrors] = useState(false)
 
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if (isError) {
+            setErrors(errorMessage)
+            dispatch(clearState())
+        }
+    }, [isError, dispatch, errorMessage])
+
     function handleSubmit(e) {
         e.preventDefault()
-        fetch("/login", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              username,
-              password
-            }),
-          })
-            .then((r) => {
-                if(r.ok){
-                    r.json().then((r)=> setUser(r))
-                }
-                else {
-                   r.json().then(e => {
-                    setErrors(Object.entries(e.error).flat())
-                })
-                } 
-            }) 
+        const user = {
+            username,
+            password
+        }
+        dispatch(loginUser(user))
     }
 
   return (

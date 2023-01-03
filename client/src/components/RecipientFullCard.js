@@ -5,11 +5,8 @@ import DonationForm from './DonationForm'
 const RecipientFullCard = ({ recipients }) => {
 
     const { id } = useParams()
-
+    const recipient = recipients?.filter((recipient) => recipient.id == id)[0]
     
-      const recipient = recipients.filter((recipient) => recipient.id == id)[0]
-    
-   
   return (
     
      <div className="card">

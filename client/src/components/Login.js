@@ -3,7 +3,7 @@ import SignupForm from './SignupForm'
 import LoginForm from './LoginForm'
 
 
-const Login = ({ setUser }) => {
+const Login = () => {
 
     const [showSignup, setShowSignup] = useState(false)
     
@@ -12,13 +12,13 @@ const Login = ({ setUser }) => {
     <div>
         { showSignup ? (
             <>
-                <SignupForm setUser={setUser} /> 
+                <SignupForm /> 
                 <p>Already have an account?</p>
                 <p className="btn" onClick={()=>setShowSignup(!showSignup)} >Log In Here</p>
             </>
         ) : (
             <>
-                <LoginForm setUser={setUser} />
+                <LoginForm />
                 <p>Don't have an account?</p>
                 <p className="btn" onClick={()=>setShowSignup(!showSignup)} >Sign Up Here</p>
             </>

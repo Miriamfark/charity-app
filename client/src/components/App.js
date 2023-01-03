@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUser } from '../redux/usersSlice';
+import { fetchRecipients } from '../redux/recipientsSlice';
 import { Routes, Route, Link } from "react-router-dom"
 import Login from './Login';
 import NavBar from './NavBar';
@@ -11,28 +14,24 @@ import MyDonationList from './MyDonationList';
 
 function App() {
 
-  const [user, setUser] = useState(null)
-  const [recipients, setRecipients] = useState([]); 
+  const user = useSelector((state) => state.users.user)
+  const recipients = useSelector((state) => state.recipients.recipient)
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    fetch("/me").then((r) => {
-      if (r.ok) {
-        r.json().then((user) => setUser(user));
-      }
-    });
-  }, []);
+    dispatch(fetchUser())
+  }, [dispatch]);
 
   console.log(user)
 
   useEffect(() => {
-    fetch("/recipients")
-      .then((r) => r.json())
-      .then(setRecipients);
-  }, []);
+    dispatch(fetchRecipients)
+  }, [dispatch, recipients.length]);
 
   console.log(recipients)
 
-  if (!user) return <Login setUser={setUser} />;
+  if (!user) return <Login />;
 
  const myRecipientsArray = user.recipients
  //gets only one of each recipient
@@ -42,16 +41,16 @@ function App() {
 
   return (
     <div>
-      <NavBar setUser={setUser} />
+      <NavBar />
       <Routes>
         <Route path="/me" />
         <Route path="/me/recipients/:id/donations" element={<RecipientDonationCard user={user} />} />
         <Route path="/me/donations/:id" element={<UpdateDonation user={user} />} />
-        <Route path="/recipients" element={<RecipientList recipients={recipients} setRecipients={setRecipients} />} />
+        <Route path="/recipients" element={<RecipientList recipients={recipients} />} />
         <Route path="/recipients/:id" element={<RecipientFullCard recipients={recipients} />} />
         <Route path="/me/donations" element={<MyDonationList user={user} />} />
-        <Route path="/recipients/new" element={<NewRecipientForm recipients={recipients} setRecipients={setRecipients} />} />
-        <Route path="/login" element={<Login setUser={setUser} />} />
+        <Route path="/recipients/new" element={<NewRecipientForm />} />
+        <Route path="/login" element={<Login />} />
      </Routes>
      <h1>{user.username}'s Organizations</h1>
      { uniqueRecipientsArray.length > 0 ? (

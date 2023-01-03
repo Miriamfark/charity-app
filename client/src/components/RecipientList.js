@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import NewRecipientForm from './NewRecipientForm';
 import RecipientCard from './RecipientCard';
 
-const RecipientList = ({ recipients, setRecipients }) => {
+const RecipientList = ({ recipients }) => {
 
   const [showForm, setShowForm] = useState(false)
 
@@ -15,7 +15,7 @@ const RecipientList = ({ recipients, setRecipients }) => {
     <>
       <ul>{mappedRecipients}</ul>
       <p className="btn" onClick={()=>setShowForm(!showForm)} >Add Recipient</p>
-      {showForm ? <NewRecipientForm recipients={recipients} setRecipients={setRecipients} /> : null }
+      {showForm ? <NewRecipientForm recipients={recipients} /> : null }
     </>
   )
 }
