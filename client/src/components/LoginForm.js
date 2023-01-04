@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { userSelector, clearState, loginUser } from '../redux/usersSlice';
 
-const LoginForm = ({ setUser }) => {
+const LoginForm = () => {
 
     const { isError, errorMessage } = useSelector(userSelector)
 

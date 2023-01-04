@@ -33,8 +33,8 @@ function App() {
 
   if (!user) return <Login />;
 
- const myRecipientsArray = user && user.recipients
- //gets only one of each recipient
+ const myRecipientsArray = user.recipients
+//  gets only one of each recipient
  let uniqueRecipientsArray = [
   ...new Map(myRecipientsArray.map((recipient)=>[recipient["name"], recipient])).values(),
 ]

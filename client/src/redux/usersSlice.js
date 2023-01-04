@@ -14,7 +14,7 @@ export const loginUser = createAsyncThunk('user/login', async (user) => {
     return res;
 });
 
-export const logoutUser = createAsyncThunk('user/logout', async (id) => {
+export const logoutUser = createAsyncThunk('user/logout', async () => {
     const userLogout = await axios.delete(`/logout`);
     const res = await userLogout.data;
     return res;
@@ -43,7 +43,7 @@ export const postDonation = createAsyncThunk('user/donation', async (donation) =
 export const usersSlice = createSlice({
     name: "users",
     initialState: {
-      user: [],
+      user: { recipients: [] },
       isFetching: false,
       isSuccess: false,
       isError: false,
@@ -110,5 +110,5 @@ export const usersSlice = createSlice({
   })
   
   export const { clearState } = usersSlice.actions;
-  export const userSelector = state => state.user
+  export const userSelector = state => state.users
 

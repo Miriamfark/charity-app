@@ -34,7 +34,7 @@ export const recipientsSlice = createSlice({
           [postRecipient.fulfilled]: (state, { payload }) => {
               state.isFetching = false;
               state.isSuccess = true;
-              state.recipient = [...state.recipient, payload]
+              state.recipient = [...state.recipients, payload]
           },
           [postRecipient.pending]: (state) => {
               state.isFetching = true;
@@ -45,7 +45,7 @@ export const recipientsSlice = createSlice({
               state.errorMessage = payload.error;
           },
           [fetchRecipients.fulfilled]: (state, { payload }) => {
-              state.recipient = payload;
+              state.recipients = payload;
               state.isFetching = false;
               state.isSuccess = true;
               return state;
