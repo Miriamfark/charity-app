@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { logoutUser } from '../redux/usersSlice';
+import { clearState, logoutUser } from '../redux/usersSlice';
 
 
 const NavBar = () => {
@@ -10,7 +10,7 @@ const NavBar = () => {
 
     function handleLogout() {
         dispatch(logoutUser())
-    } 
+    }
 
   return (
     <div>

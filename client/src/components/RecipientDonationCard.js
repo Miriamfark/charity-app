@@ -7,12 +7,13 @@ const RecipientDonationCard = ({ user }) => {
 
     let { id } = useParams()
 
-    const donations = user?.donations.filter((donation) => donation.recipient.id == id)
-    const recipient = user?.recipients.filter((recipient)=>recipient.id == id)[0]
+    //after delete a donation or when refresh the page, the .filter is breaking
+    const donations = user.donations.filter((donation) => donation.recipient_id === id)
+    const recipient = user.recipients.filter((recipient)=>recipient.id == id)[0]
 
     console.log("recipient:",recipient)
 
-    const mappedDonations = donations.map((donation) => {
+    const mappedDonations = donations && donations.map((donation) => {
       return (
           <>
               <li key={donation.id}>Donation: ${donation.amount} | Date: {donation.created_at.slice(0, 10)}</li>

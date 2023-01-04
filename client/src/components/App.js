@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUser } from '../redux/usersSlice';
+import { fetchUser, clearState } from '../redux/usersSlice';
 import { fetchRecipients } from '../redux/recipientsSlice';
 import { Routes, Route, Link } from "react-router-dom"
 import Login from './Login';
@@ -26,8 +26,12 @@ function App() {
   console.log(user)
 
   useEffect(() => {
-    dispatch(fetchRecipients)
-  }, [dispatch, recipients.length]);
+    dispatch(fetchRecipients())
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(clearState());
+  }, [dispatch, user?.id]);
 
   console.log(recipients)
 

@@ -11,7 +11,7 @@ export const signupUser = createAsyncThunk('user/signup', async (user) => {
 export const loginUser = createAsyncThunk('user/login', async (user) => {
     const userLogin = await axios.post('/login', user);
     const res = await userLogin.data;
-    return res;
+    return res
 });
 
 export const logoutUser = createAsyncThunk('user/logout', async () => {
@@ -43,7 +43,7 @@ export const postDonation = createAsyncThunk('user/donation', async (donation) =
 export const usersSlice = createSlice({
     name: "users",
     initialState: {
-      user: { recipients: [] },
+      user: { recipients: [], donations: [] },
       isFetching: false,
       isSuccess: false,
       isError: false,
@@ -54,7 +54,7 @@ export const usersSlice = createSlice({
           state.isError = false;
           state.isSuccess = false;
           state.isFetching = false;
-    
+          console.log("in clear state")
           return state;
       },
     },
@@ -76,12 +76,14 @@ export const usersSlice = createSlice({
           state.user = payload;
           state.isFetching = false;
           state.isSuccess = true;
+          state.isError = false;
+          console.log("fulfilled", payload)
           return state;
       },
       [loginUser.rejected]: (state, { payload }) => {
           state.isFetching = false;
           state.isError = true;
-          state.errorMessage = payload.error;
+          state.errorMessage = "Invalid username or password";
       },
       [loginUser.pending]: (state) => {
           state.isFetching = true;
