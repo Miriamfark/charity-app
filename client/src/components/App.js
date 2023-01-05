@@ -11,6 +11,7 @@ import RecipientFullCard from './RecipientFullCard';
 import NewRecipientForm from './NewRecipientForm';
 import UpdateDonation from './UpdateDonation';
 import MyDonationList from './MyDonationList';
+import PrivateRoutes from './PrivateRoutes';
 
 function App() {
 
@@ -37,10 +38,10 @@ function App() {
 
   if (!user) return <Login />;
 
- const myRecipientsArray = user.recipients
+ const myRecipientsArray = user && user.recipients
 //  gets only one of each recipient
  let uniqueRecipientsArray = [
-  ...new Map(myRecipientsArray.map((recipient)=>[recipient["name"], recipient])).values(),
+  ...new Map(myRecipientsArray && myRecipientsArray.map((recipient)=>[recipient["name"], recipient])).values(),
 ]
 
   return (
@@ -48,12 +49,12 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/me" />
-        <Route path="/me/recipients/:id/donations" element={<RecipientDonationCard user={user} />} />
-        <Route path="/me/donations/:id" element={<UpdateDonation user={user} />} />
-        <Route path="/recipients" element={<RecipientList recipients={recipients} />} />
-        <Route path="/recipients/:id" element={<RecipientFullCard recipients={recipients} />} />
-        <Route path="/me/donations" element={<MyDonationList user={user} />} />
-        <Route path="/recipients/new" element={<NewRecipientForm />} />
+        <Route path="/me/recipients/:id/donations" element={<PrivateRoutes> <RecipientDonationCard user={user} /> </PrivateRoutes> } />
+        <Route path="/me/donations/:id" element={<PrivateRoutes> <UpdateDonation user={user} /> </PrivateRoutes>} />
+        <Route path="/recipients" element={<PrivateRoutes><RecipientList recipients={recipients} /></PrivateRoutes>} />
+        <Route path="/recipients/:id" element={<PrivateRoutes><RecipientFullCard recipients={recipients} /></PrivateRoutes>} />
+        <Route path="/me/donations" element={<PrivateRoutes><MyDonationList user={user} /></PrivateRoutes>} />
+        <Route path="/recipients/new" element={<PrivateRoutes><NewRecipientForm /></PrivateRoutes>} />
         <Route path="/login" element={<Login />} />
      </Routes>
      <h1>{user.username}'s Organizations</h1>

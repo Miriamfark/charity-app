@@ -6,7 +6,7 @@ const RecipientList = ({ recipients }) => {
 
   const [showForm, setShowForm] = useState(false)
 
-        const mappedRecipients = recipients.map((recipient)=> {
+        const mappedRecipients = recipients && recipients.map((recipient)=> {
         return <RecipientCard key={recipient.id} recipient={recipient} />
     })
   

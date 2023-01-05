@@ -1,16 +1,24 @@
 import React, { useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { clearState, logoutUser } from '../redux/usersSlice';
+import { logoutUser, fetchUser } from '../redux/usersSlice';
+import { useSelector } from 'react-redux';
 
 
 const NavBar = () => {
 
+  const user = useSelector((state) => state.users.user)
+  const navigate = useNavigate()
   const dispatch = useDispatch()
 
     function handleLogout() {
-        dispatch(logoutUser())
+        dispatch(logoutUser(user.id))
+        navigate("/")
     }
+
+    useEffect(() => {
+      dispatch(fetchUser())
+    }, [dispatch])
 
   return (
     <div>

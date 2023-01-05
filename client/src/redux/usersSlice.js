@@ -14,10 +14,9 @@ export const loginUser = createAsyncThunk('user/login', async (user) => {
     return res
 });
 
-export const logoutUser = createAsyncThunk('user/logout', async () => {
+export const logoutUser = createAsyncThunk('user/logout', async (id) => {
     const userLogout = await axios.delete(`/logout`);
-    const res = await userLogout.data;
-    return res;
+    return id;
 });
 
 export const fetchUser = createAsyncThunk('user/getUser', async () => {
@@ -88,6 +87,14 @@ export const usersSlice = createSlice({
       [loginUser.pending]: (state) => {
           state.isFetching = true;
       },
+      [logoutUser.fulfilled]: (state) => {
+        state.user = null;
+        state.isFetching = false;
+        state.isSuccess = true;
+        state.isError = false;
+        console.log("logged out!")
+        return state;
+        },
       [fetchUser.fulfilled]: (state, { payload }) => {
           state.user = payload;
           state.isFetching = false;
