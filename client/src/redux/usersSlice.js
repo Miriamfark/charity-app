@@ -39,6 +39,13 @@ export const postDonation = createAsyncThunk('user/donation', async (donation) =
     return res;
 });
 
+export const removeDonation = createAsyncThunk('user/removeDonation', async (id) => {
+    console.log("in the delete")
+    const donation = await fetch(`/donations/${id}`, {method: "DELETE"})
+    .then( r => console.log(r))
+    return id;
+})
+
 export const usersSlice = createSlice({
     name: "users",
     initialState: {
@@ -115,6 +122,16 @@ export const usersSlice = createSlice({
           state.isSuccess = true;
           return state;
       },
+      [removeDonation.fulfilled]: (state, { payload }) => {
+        console.log(state.user.donations)
+        const filteredDonations = state.user.donations.filter((donation) => donation.id !== payload)
+        state.user.donations = filteredDonations
+        state.isFetching = false;
+        state.isSuccess = true;
+        state.isError = false;
+        console.log("deleted donation!")
+        return state;
+        },
     },
   })
   

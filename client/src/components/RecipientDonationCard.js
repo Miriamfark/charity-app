@@ -2,29 +2,43 @@ import React from 'react'
 import { useParams, Link } from 'react-router-dom'
 import DonationForm from './DonationForm'
 import UpdateDonation from './UpdateDonation'
+import { useDispatch } from "react-redux"
+import { removeDonation } from '../redux/usersSlice'
 
 const RecipientDonationCard = ({ user }) => {
+
+  const dispatch = useDispatch()
 
     let { id } = useParams()
 
     //after delete a donation or when refresh the page, the .filter is breaking
-    const donations = user.donations.filter((donation) => donation.recipient_id === id)
+    const donations = user.donations.filter((donation) => donation.recipient_id == id)
     const recipient = user.recipients.filter((recipient)=>recipient.id == id)[0]
 
-    console.log("recipient:",recipient)
+    // console.log(user.donations[0].recipient_id, id)
 
-    const mappedDonations = donations && donations.map((donation) => {
+    function handleDonationDelete(id) {
+      // fetch(`/donations/${id}`, { method: "DELETE" })
+        // .then( r => {
+          // if (r.ok) {
+          // alert("Donation deleted!")
+          dispatch(removeDonation(id))
+          // }}
+      // )
+    }
+
+    // blank array
+    const mappedDonations = donations.map((donation) => {
       return (
           <>
               <li key={donation.id}>Donation: ${donation.amount} | Date: {donation.created_at.slice(0, 10)}</li>
               <Link className="btn" element={<UpdateDonation user={user} />} to={`/me/donations/${donation.id}`}>Edit Donation</Link>
-              <p className="btn" onClick={()=>{
-                fetch(`/donations/${donation.id}`, { method: "DELETE" })
-                .then(alert("Donation deleted!"))
-              }}>Delete Donation</p>
+              <button onClick={() => handleDonationDelete(donation.id)}>Delete Donation</button>
           </>
           )
   })
+
+  console.log(mappedDonations)
 
   return (
     <div>
