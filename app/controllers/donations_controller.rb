@@ -5,7 +5,8 @@ rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
     def create   
         user = find_user
         donation = user.donations.create!(donation_params)
-        render json: donation, status: :created
+        recipient = Recipient.find_by(id: donation.recipient_id)
+        render json: { donation: donation, recipient: recipient }, status: :created
     end
 
     def index 
@@ -18,7 +19,7 @@ rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
         user = find_user
         donation = user.donations.find(params[:id])
         updated_donation = donation.update!(amount: params[:amount])
-        render json: updated_donation, status: :accepted
+        render json: donation, status: :accepted
     end
 
     def destroy 

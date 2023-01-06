@@ -14,8 +14,12 @@ const RecipientDonationCard = ({ user }) => {
     const donations = user.donations.filter((donation) => donation.recipient_id == id)
     const recipient = user.recipients.filter((recipient)=>recipient.id == id)[0]
 
-    function handleDonationDelete(id) {
-          dispatch(removeDonation(id))
+    function handleDonationDelete(id, recipientId) {
+      const data = {
+        donationId: id,
+        recipientId: recipientId
+      }
+          dispatch(removeDonation(data))
     }
 
     const mappedDonations = donations.map((donation) => {
@@ -23,7 +27,7 @@ const RecipientDonationCard = ({ user }) => {
           <div key={donation.id}>
               <li key={donation.id}>Donation: ${donation.amount} | Date: {donation.created_at.slice(0, 10)}</li>
               <Link className="btn" element={<UpdateDonation />} to={`/me/donations/${donation.id}`}>Edit Donation</Link>
-              <button onClick={() => handleDonationDelete(donation.id)}>Delete Donation</button>
+              <button onClick={() => handleDonationDelete(donation.id, donation.recipient_id)}>Delete Donation</button>
           </div>
           )
   })

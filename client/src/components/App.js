@@ -22,6 +22,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchUser())
+    console.log("in the fetch user")
   }, [dispatch]);
 
   console.log(user)

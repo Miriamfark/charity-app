@@ -39,11 +39,11 @@ export const postDonation = createAsyncThunk('user/donation', async (donation) =
     return res;
 });
 
-export const removeDonation = createAsyncThunk('user/removeDonation', async (id) => {
+export const removeDonation = createAsyncThunk('user/removeDonation', async (data) => {
     console.log("in the delete")
-    const donation = await fetch(`/donations/${id}`, {method: "DELETE"})
+    const donation = await fetch(`/donations/${data.donationId}`, {method: "DELETE"})
     .then( r => console.log(r))
-    return id;
+    return data;
 })
 
 export const updateDonation = createAsyncThunk('user/updateDonation', async (donationData) => {
@@ -55,7 +55,8 @@ export const updateDonation = createAsyncThunk('user/updateDonation', async (don
             },
             body: JSON.stringify(donationData)
           })
-          return donationData
+        //   return donationData
+          return donation.json()
 })
 
 export const usersSlice = createSlice({
@@ -129,38 +130,31 @@ export const usersSlice = createSlice({
           state.isFetching = true;
       },
       [postDonation.fulfilled]: (state, { payload }) => {
-          state.user = {...state.user, donations:[...state.user.donations, payload]};
+          state.user = {...state.user, recipients: [...state.user.recipients, payload.recipient], donations:[...state.user.donations, payload.donation]};
           state.isFetching = false;
+          console.log("payload:", payload)
           state.isSuccess = true;
           return state;
       },
       [removeDonation.fulfilled]: (state, { payload }) => {
-        const filteredDonations = state.user.donations.filter((donation) => donation.id !== payload)
+        const filteredDonations = state.user.donations.filter((donation) => donation.id !== payload.donationId)
+        const filteredRecipients = state.user.recipients.filter((recipient) => recipient.id !== payload.recipientId)
         state.user.donations = filteredDonations
+        state.user.recipients = filteredRecipients
         state.isFetching = false;
         state.isSuccess = true;
         state.isError = false;
         return state;
         },
         [updateDonation.fulfilled]: (state, { payload }) => {
-            // let patchedDonation = state.user.donations.filter((donation) => donation.id == payload.id)
-            // patchedDonation = {...patchedDonation, amount: payload.amount}
-            // state.user = {...state.user, donations: state.user.donations.map((d) => {
-            //     return d.id !== patchedDonation.id ? d : patchedDonation
-            // })}
-            // state.isFetching = false;
-            // state.isSuccess = true;
-            // state.isError = false;
-            // console.log("in the reducer")
-            // return state;
-            const theDonation = state.user.donations.map((donation) => {
-              return donation.id === payload.id
-            })[0]
-            console.log(theDonation)
-            // state.user = {...state.user, donations:[...state.user.donations, payload]};
+            let patchedDonation = state.user.donations.filter((donation) => donation.id == payload.id)[0]
+            patchedDonation = {...patchedDonation, amount: payload.amount}
+            state.user = {...state.user, donations: state.user.donations.map((d) => {
+                return d.id !== patchedDonation.id ? d : patchedDonation
+            })}
             state.isFetching = false;
             state.isSuccess = true;
-            console.log("in the reducer")
+            console.log("in the reducer", payload)
             return state;
             }
     },

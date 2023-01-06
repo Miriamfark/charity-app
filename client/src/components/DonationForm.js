@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { postDonation } from '../redux/usersSlice';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { postDonation, fetchUser } from '../redux/usersSlice';
 
 const DonationForm = ({ recipient }) => {
 
     const [amount, setAmount] = useState(1)
     const dispatch = useDispatch()
-
+    const recipientsFromUser = useSelector((state) => state.users.user.recipients)
+    console.log(recipientsFromUser)
+    // show update to state when donating to a new recipient!!!
     function submitDonation(e) {
         e.preventDefault()
         const donationData = {
@@ -15,6 +17,10 @@ const DonationForm = ({ recipient }) => {
           }
           dispatch(postDonation(donationData))
     }
+
+    useEffect(() => {
+        dispatch(fetchUser())
+    }, [dispatch])
 
   return (
     <div>

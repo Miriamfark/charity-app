@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateDonation } from '../redux/usersSlice';
 
 
 const UpdateDonation = () => {
 
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const donations = useSelector((state) => state.users.user.donations)
   
@@ -14,7 +15,7 @@ const UpdateDonation = () => {
     const donation = donations.filter((donation) => donation.id == id)[0]
       
 
-    console.log(donation && donation.amount)
+    console.log(donation)
     
     const [amountNumber, setAmountNumber] = useState(donation && donation.amount)  
 
@@ -26,6 +27,7 @@ const UpdateDonation = () => {
            }
            console.log(donationData, id)
         dispatch(updateDonation(donationData))
+        navigate(`/me/recipients/${donation.recipient_id}/donations`)
     }
 
     function handleAmountChange(e) {
