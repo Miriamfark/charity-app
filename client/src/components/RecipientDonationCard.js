@@ -10,39 +10,27 @@ const RecipientDonationCard = ({ user }) => {
   const dispatch = useDispatch()
 
     let { id } = useParams()
-
     //after delete a donation or when refresh the page, the .filter is breaking
     const donations = user.donations.filter((donation) => donation.recipient_id == id)
     const recipient = user.recipients.filter((recipient)=>recipient.id == id)[0]
 
-    // console.log(user.donations[0].recipient_id, id)
-
     function handleDonationDelete(id) {
-      // fetch(`/donations/${id}`, { method: "DELETE" })
-        // .then( r => {
-          // if (r.ok) {
-          // alert("Donation deleted!")
           dispatch(removeDonation(id))
-          // }}
-      // )
     }
 
-    // blank array
     const mappedDonations = donations.map((donation) => {
       return (
-          <>
+          <div key={donation.id}>
               <li key={donation.id}>Donation: ${donation.amount} | Date: {donation.created_at.slice(0, 10)}</li>
-              <Link className="btn" element={<UpdateDonation user={user} />} to={`/me/donations/${donation.id}`}>Edit Donation</Link>
+              <Link className="btn" element={<UpdateDonation />} to={`/me/donations/${donation.id}`}>Edit Donation</Link>
               <button onClick={() => handleDonationDelete(donation.id)}>Delete Donation</button>
-          </>
+          </div>
           )
   })
 
-  console.log(mappedDonations)
-
   return (
     <div>
-      { user.recipients.length >= 1 ? (
+      { recipient ? (
         <>
           <img src={recipient.logo} alt="logo" />
           <h1>{recipient.name}</h1>

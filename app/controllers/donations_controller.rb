@@ -16,8 +16,9 @@ rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
 
     def update
         user = find_user
-        donation = user.donations.find(params[:id]).update!(amount: params[:amount])
-        render json: donation, status: :accepted
+        donation = user.donations.find(params[:id])
+        updated_donation = donation.update!(amount: params[:amount])
+        render json: updated_donation, status: :accepted
     end
 
     def destroy 

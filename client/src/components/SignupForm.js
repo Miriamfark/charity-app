@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
 import { signupUser } from "../redux/usersSlice"
 
-function SignupForm({ setUser }) {
+function SignupForm() {
 
     const dispatch = useDispatch()
 

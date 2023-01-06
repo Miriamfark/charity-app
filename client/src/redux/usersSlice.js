@@ -46,6 +46,18 @@ export const removeDonation = createAsyncThunk('user/removeDonation', async (id)
     return id;
 })
 
+export const updateDonation = createAsyncThunk('user/updateDonation', async (donationData) => {
+    console.log("in the update action", donationData)
+    const donation = await fetch(`/donations/${donationData.id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(donationData)
+          })
+          return donationData
+})
+
 export const usersSlice = createSlice({
     name: "users",
     initialState: {
@@ -86,7 +98,7 @@ export const usersSlice = createSlice({
           console.log("fulfilled", payload)
           return state;
       },
-      [loginUser.rejected]: (state, { payload }) => {
+      [loginUser.rejected]: (state) => {
           state.isFetching = false;
           state.isError = true;
           state.errorMessage = "Invalid username or password";
@@ -123,15 +135,34 @@ export const usersSlice = createSlice({
           return state;
       },
       [removeDonation.fulfilled]: (state, { payload }) => {
-        console.log(state.user.donations)
         const filteredDonations = state.user.donations.filter((donation) => donation.id !== payload)
         state.user.donations = filteredDonations
         state.isFetching = false;
         state.isSuccess = true;
         state.isError = false;
-        console.log("deleted donation!")
         return state;
         },
+        [updateDonation.fulfilled]: (state, { payload }) => {
+            // let patchedDonation = state.user.donations.filter((donation) => donation.id == payload.id)
+            // patchedDonation = {...patchedDonation, amount: payload.amount}
+            // state.user = {...state.user, donations: state.user.donations.map((d) => {
+            //     return d.id !== patchedDonation.id ? d : patchedDonation
+            // })}
+            // state.isFetching = false;
+            // state.isSuccess = true;
+            // state.isError = false;
+            // console.log("in the reducer")
+            // return state;
+            const theDonation = state.user.donations.map((donation) => {
+              return donation.id === payload.id
+            })[0]
+            console.log(theDonation)
+            // state.user = {...state.user, donations:[...state.user.donations, payload]};
+            state.isFetching = false;
+            state.isSuccess = true;
+            console.log("in the reducer")
+            return state;
+            }
     },
   })
   

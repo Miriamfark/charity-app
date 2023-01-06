@@ -1,46 +1,48 @@
-import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateDonation } from '../redux/usersSlice';
 
 
-const UpdateDonation = ({ user }) => {
+const UpdateDonation = () => {
+
+    const dispatch = useDispatch()
+    const donations = useSelector((state) => state.users.user.donations)
   
     let { id } = useParams()
-    const donation = user.donations.map((donation) => {
-        if(donation.id == id) {
-            return donation
-        }
-    })[0]
-    
-    const [amountNumber, setAmountNumber] = useState(donation?.amount)  
+    console.log(donations)
+    const donation = donations.filter((donation) => donation.id == id)[0]
+      
 
-    function updateDonation(e) {
+    console.log(donation && donation.amount)
+    
+    const [amountNumber, setAmountNumber] = useState(donation && donation.amount)  
+
+    function handleUpdateDonation(e) {
         e.preventDefault()
         const donationData = {
+            id: id,
             amount: amountNumber,
-          }
-        fetch(`/donations/${id}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(donationData)
-          })
-            .then((r) => r.json())
-            .then((data) => {
-                console.log(data)
-            })
+           }
+           console.log(donationData, id)
+        dispatch(updateDonation(donationData))
+    }
+
+    function handleAmountChange(e) {
+        console.log(e.target.value)
+        setAmountNumber(e.target.value)
     }
 
     return (
     <div>
-        <form className="col s8" onSubmit={updateDonation}> 
+        <form className="col s8" onSubmit={(e) => handleUpdateDonation(e)}> 
             <div className="row">
                 <div className="input-field col s8">
                     <label>Amount $</label>
                     <input 
                         type="number"
                         value={amountNumber}
-                        onChange={(e) => setAmountNumber(e.target.value)}
+                        onChange={handleAmountChange}
                     ></input>
                 </div>
             </div>
