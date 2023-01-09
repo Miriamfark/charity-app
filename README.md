@@ -21,11 +21,11 @@ The Charity App is a tool for philanthropists to track their charitable donation
 ## How To Use
 
 1. Start by forking and cloning this github repository.
-3. Install all dependencies from the frontend by running 
+3. Navigate into the client folder and install all dependencies from the frontend by running 
 `$npm install`
 4. Start the frontend server by running 
 `$npm start`
-5. Install all dependencies from the backend server by running
+5. Open a new terminal tab and install all dependencies from the backend server by running
 `$ bundle install`
 6. Start the backend server by running
  `$rails s`
