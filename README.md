@@ -27,7 +27,8 @@ The Charity App is a tool for philanthropists to track their charitable donation
 `$npm start`
 5. Open a new terminal tab and install all dependencies from the backend server by running
 `$ bundle install`
-6. Start the backend server by running
+6. Run `rails db:create`, `rails db:migrate`, and `rails db:seed`
+7. Start the backend server by running
  `$rails s`
 
 ## Technologies Used
