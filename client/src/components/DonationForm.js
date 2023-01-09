@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { postDonation, fetchUser } from '../redux/usersSlice';
+import { fetchRecipients } from '../redux/recipientsSlice';
+import { postDonation, fetchUser, userSelector, clearState, updateSumDonations } from '../redux/usersSlice';
 
 const DonationForm = ({ recipient }) => {
 
     const [amount, setAmount] = useState(1)
     const dispatch = useDispatch()
-    const recipientsFromUser = useSelector((state) => state.users.user.recipients)
-    console.log(recipientsFromUser)
-    // show update to state when donating to a new recipient!!!
+    const { isError, errorMessage } = useSelector(userSelector)
+    const [errors, setErrors] = useState(false)
+
+    useEffect(() => {
+        if (isError) {
+            setErrors(errorMessage)
+            dispatch(clearState())
+        }
+    }, [isError, dispatch, errorMessage])
+  
     function submitDonation(e) {
         e.preventDefault()
         const donationData = {
@@ -16,11 +24,18 @@ const DonationForm = ({ recipient }) => {
             amount: amount
           }
           dispatch(postDonation(donationData))
+          dispatch(updateSumDonations(donationData.recipient_id))
+          dispatch(fetchRecipients())  
     }
 
     useEffect(() => {
         dispatch(fetchUser())
     }, [dispatch])
+
+    function handleAmountChange(e) {
+        setAmount(e.target.value)
+        setErrors(false)
+    }
 
   return (
     <div>
@@ -31,7 +46,7 @@ const DonationForm = ({ recipient }) => {
                     <input 
                         type="number"
                         value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
+                        onChange={handleAmountChange}
                     ></input>
                 </div>
             </div>
@@ -39,6 +54,7 @@ const DonationForm = ({ recipient }) => {
                 <input className="btn" type="submit" value="Donate" />
             </div>
         </form>
+        { errors ? <h5>{errors}</h5> : null }
     </div>
   )
 }

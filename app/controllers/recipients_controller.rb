@@ -8,7 +8,7 @@ class RecipientsController < ApplicationController
     end
 
     def show 
-        find_recipient
+        recipient = find_recipient
         render json: recipient
     end
 

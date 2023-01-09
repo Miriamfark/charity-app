@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { useParams } from "react-router-dom";
 
 export const signupUser = createAsyncThunk('user/signup', async (user) => {
     const userSignup = await axios.post('/signup', user);
@@ -34,20 +35,28 @@ export const fetchUser = createAsyncThunk('user/getUser', async () => {
 });
 
 export const postDonation = createAsyncThunk('user/donation', async (donation) => {
-    const userDonation = await axios.post('/donations', donation);
-    const res = await userDonation.data;
-    return res;
-});
+ const newDonation = await fetch('/donations', {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify(donation)
+})
+
+const data = await newDonation.json()
+        if (newDonation.ok) {
+            return data
+        } else {
+            return data.errors
+        }
+    })
 
 export const removeDonation = createAsyncThunk('user/removeDonation', async (data) => {
-    console.log("in the delete")
-    const donation = await fetch(`/donations/${data.donationId}`, {method: "DELETE"})
-    .then( r => console.log(r))
+    const donation = await fetch(`/donations/${data.donationId}`, { method: "DELETE" })
     return data;
 })
 
 export const updateDonation = createAsyncThunk('user/updateDonation', async (donationData) => {
-    console.log("in the update action", donationData)
     const donation = await fetch(`/donations/${donationData.id}`, {
             method: "PATCH",
             headers: {
@@ -55,9 +64,15 @@ export const updateDonation = createAsyncThunk('user/updateDonation', async (don
             },
             body: JSON.stringify(donationData)
           })
-        //   return donationData
           return donation.json()
 })
+
+export const updateSumDonations = createAsyncThunk('user/updateSumDonations', async (recipientId) => {
+    const recipient = await fetch(`/recipients/${recipientId}`)
+    console.log("recipient", recipient)
+    return recipient.json()
+})
+
 
 export const usersSlice = createSlice({
     name: "users",
@@ -73,7 +88,7 @@ export const usersSlice = createSlice({
           state.isError = false;
           state.isSuccess = false;
           state.isFetching = false;
-          console.log("in clear state")
+          state.errorMessage = false
           return state;
       },
     },
@@ -130,17 +145,28 @@ export const usersSlice = createSlice({
           state.isFetching = true;
       },
       [postDonation.fulfilled]: (state, { payload }) => {
+        if (payload.donation) {
           state.user = {...state.user, recipients: [...state.user.recipients, payload.recipient], donations:[...state.user.donations, payload.donation]};
           state.isFetching = false;
-          console.log("payload:", payload)
+          console.log("success", payload)
           state.isSuccess = true;
           return state;
+        } else {
+            state.isError = true
+            state.errorMessage = payload
+            console.log("error", payload)
+        }
       },
+      
       [removeDonation.fulfilled]: (state, { payload }) => {
         const filteredDonations = state.user.donations.filter((donation) => donation.id !== payload.donationId)
-        const filteredRecipients = state.user.recipients.filter((recipient) => recipient.id !== payload.recipientId)
+        //this removes the recipient from the list of my recipients and triggers page to navigate away from the recipient card - it is
+        //only good if deleting the only donation made to this page
+        // const filteredRecipients = state.user.recipients.filter((recipient) => recipient.id !== payload.recipientId)
         state.user.donations = filteredDonations
-        state.user.recipients = filteredRecipients
+        // console.log("filteredRecipients:", filteredRecipients)
+        //setting state to exclude that recipient
+        // state.user.recipients = filteredRecipients
         state.isFetching = false;
         state.isSuccess = true;
         state.isError = false;
@@ -156,7 +182,22 @@ export const usersSlice = createSlice({
             state.isSuccess = true;
             console.log("in the reducer", payload)
             return state;
-            }
+            },
+        [updateSumDonations.fulfilled]: (state, { payload }) => {
+            let updatedRecipient = state.user.recipients.filter((recipient) => {
+                return recipient.id === payload.id
+            })[0]
+            updatedRecipient = {...updatedRecipient, sum_donations: payload.sum_donations}
+            state.user = {...state.user, recipients: state.user.recipients.map((r) => {
+                return r.id !== updatedRecipient.id ? r : updatedRecipient
+            })}
+            state.isFetching = false;
+            state.isSuccess = true;
+            state.isError = false;
+            console.log("payload:", payload)
+            console.log("updatedRecipient:", updatedRecipient)
+            return state;
+        },
     },
   })
   

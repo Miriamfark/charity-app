@@ -12,7 +12,8 @@ const MyDonationList = ({ user }) => {
     }, [dispatch, donations.length])
 
     const mappedDonations = donations && donations.map((donation) => {
-        return <li key={donation.id}>{donation.recipient.name} | Amount: ${donation.amount} | Date: {donation.created_at.slice(0, 10)}</li>
+        // console.log(donation)
+        return <li key={donation.id}>{donation.recipient && donation.recipient.name} | Amount: ${donation.amount} | Date: {donation.created_at.slice(0, 10)}</li>
     })
     
     return (

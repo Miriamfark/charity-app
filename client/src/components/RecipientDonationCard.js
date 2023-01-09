@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import DonationForm from './DonationForm'
 import UpdateDonation from './UpdateDonation'
 import { useDispatch } from "react-redux"
-import { removeDonation } from '../redux/usersSlice'
+import { removeDonation, updateSumDonations } from '../redux/usersSlice'
 
 const RecipientDonationCard = ({ user }) => {
 
@@ -20,6 +20,7 @@ const RecipientDonationCard = ({ user }) => {
         recipientId: recipientId
       }
           dispatch(removeDonation(data))
+          dispatch(updateSumDonations(recipientId))
     }
 
     const mappedDonations = donations.map((donation) => {

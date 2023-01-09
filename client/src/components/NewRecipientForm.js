@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { postRecipient } from '../redux/recipientsSlice';
+import { postRecipient, fetchRecipients } from '../redux/recipientsSlice';
 
 const NewRecipientForm = () => {
 
@@ -23,6 +23,7 @@ const NewRecipientForm = () => {
           }
 
           dispatch(postRecipient(newRecipientData))
+          dispatch(fetchRecipients())
           setName("")
           setCategory("")
           setDescription("")

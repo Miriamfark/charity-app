@@ -35,6 +35,7 @@ export const recipientsSlice = createSlice({
               state.isFetching = false;
               state.isSuccess = true;
               state.recipient = [...state.recipients, payload]
+              return state
           },
           [postRecipient.pending]: (state) => {
               state.isFetching = true;
